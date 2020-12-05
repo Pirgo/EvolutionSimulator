@@ -5,14 +5,10 @@ import java.util.Arrays;
 public class tmp {
     public static void main(String[] args){
         Genes gene = new Genes(32, 8);
+        Genes gene2 = new Genes(32, 8);
         System.out.println(Arrays.toString(gene.getGene()));
-        int i = 0;
-        while (i < 10){
-            i++;
-            gene =  new Genes(32, 8);
-            System.out.println(Arrays.toString(gene.getGene()));
-            int x = gene.returnRandomGene();
-            System.out.println(x);
-        }
+        System.out.println(Arrays.toString(gene2.getGene()));
+        Genes child = new Genes(gene, gene2);
+        System.out.println(Arrays.toString(child.getGene()));
     }
 }
