@@ -1,13 +1,11 @@
 package ObjectsOnMap;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-
 
 public class Genes {
     private int[] gene;
-    private int lengthOfGene;
-    private int numberOfUniqueGenes;
+    private final int lengthOfGene;
+    private final int numberOfUniqueGenes;
 
     public Genes(int lengthOfGene, int numberOfUniqueGenes){
         this.gene = new int[lengthOfGene];
@@ -56,7 +54,7 @@ public class Genes {
     public int getLengthOfGene(){
         return this.lengthOfGene;
     }
-    
+
     public int getNumberOfUniqueGenes(){
         return this.numberOfUniqueGenes;
     }

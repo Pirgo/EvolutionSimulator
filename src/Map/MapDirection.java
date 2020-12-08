@@ -5,16 +5,27 @@ import ObjectsOnMap.Vector2d;
 public enum MapDirection {
     NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST ;
 
+    private static final MapDirection[] values = values();
+    private static final int size = values.length;
+
     public String toString() {
         switch (this) {
             case EAST:
-                return "Wschód";
+                return "EAST";
             case WEST:
-                return "Zachód";
+                return "WEST";
             case NORTH:
-                return "Północ";
+                return "NORTH";
             case SOUTH:
-                return "Południe";
+                return "SOUTH";
+            case NORTHEAST:
+                return "NORTHEAST";
+            case NORTHWEST:
+                return "NORTHWEST";
+            case SOUTHEAST:
+                return "SOUTHEAST";
+            case SOUTHWEST:
+                return "SOUTHWEST";
         }
         return null;
     }
@@ -57,5 +68,9 @@ public enum MapDirection {
             case SOUTHWEST: return new Vector2d(-1,-1);
         }
         return null;
+    }
+
+    public MapDirection random(){
+        return values[(int)(Math.random()*size)];
     }
 }
