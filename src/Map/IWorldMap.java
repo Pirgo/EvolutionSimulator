@@ -12,7 +12,11 @@ public interface IWorldMap {
 
     Vector2d getMapLowerLeft();
 
+    Vector2d getMapUpperRigth();
+
     double getMoveEnergy();
+
+    double getStartEnergy();
 
 
 }

@@ -4,6 +4,7 @@ import Map.IPositionChangeObserver;
 import Map.IWorldMap;
 import Map.MapDirection;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -44,10 +45,6 @@ public class Animal implements IMapElement {
 
     //moves animal if not dead
     public void move(){
-//        if(this.isDead()){
-//            System.out.println("YYYYYYYYYYYYYYYYYY");
-//            return;
-//        }
         int tmpx;
         int tmpy;
 
@@ -75,6 +72,8 @@ public class Animal implements IMapElement {
         this.energy += energyValue;
     }
 
+
+    //checks if animal would die while moving, assuming that it cant move if its energy drops below zero, (it will die while moving)
     public boolean isDead(){
         return this.energy - map.getMoveEnergy() < 0;
     }
@@ -116,5 +115,19 @@ public class Animal implements IMapElement {
 
     public Genes getGene(){
         return this.gene;
+    }
+
+    //need to change
+    public Color animalColor(){
+        double startEnergy = map.getStartEnergy();
+        if(this.energy < 0.1 * startEnergy ) return new Color(255, 0, 0);
+        if(this.energy < 0.2 * startEnergy ) return new Color(206, 25, 25);
+        if(this.energy < 0.5 * startEnergy ) return new Color(232, 83, 83);
+        if(this.energy < 0.8 * startEnergy ) return new Color(196, 87, 87);
+        if(this.energy < startEnergy ) return new Color(119, 255, 0);
+        if(this.energy < 2 * startEnergy ) return new Color(20, 146, 11);
+        if(this.energy < 4 * startEnergy ) return new Color(21, 71, 10);
+        if(this.energy < 8 * startEnergy ) return new Color(11, 52, 9);
+        return new Color(11, 52, 9);
     }
 }

@@ -1,5 +1,7 @@
 package ObjectsOnMap;
 
+import Map.IWorldMap;
+
 import java.util.Objects;
 
 public class Vector2d {
@@ -9,6 +11,16 @@ public class Vector2d {
     public Vector2d(int x, int y){
         this.x = x;
         this.y = y;
+    }
+
+
+    //creates random vector in map boundries
+    public Vector2d(IWorldMap map){
+        Vector2d mapLowerLeft = map.getMapLowerLeft();
+        Vector2d mapUpperRigth = map.getMapUpperRigth();
+
+        this.x = (int)(Math.random()*(mapUpperRigth.x - mapLowerLeft.x));
+        this.y = (int)(Math.random()*(mapUpperRigth.y - mapLowerLeft.y));
     }
 
     public String toString(){

@@ -44,6 +44,10 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         return this.mapLowerLeft;
     }
 
+    public Vector2d getMapUpperRigth(){
+        return this.mapUpperRight;
+    }
+
     //    @Override
     public int getWidth(){
         return this.width;
@@ -56,6 +60,10 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
 
     public double getMoveEnergy(){
         return (double)this.moveEnergy;
+    }
+
+    public double getStartEnergy(){
+        return (double)this.startEnergy;
     }
 
     //place animal at the not occupied position, it will be used at start
@@ -273,6 +281,8 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         return this.animalMap;
     }
 
+
+    //need to change and same in Animal
     public Vector2d toNoBoundedPosition(Vector2d position) {
         int newX;
         int newY;
@@ -339,5 +349,41 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
             addAnimal(a, a.getPosition());
         }
     }
+
+    public Vector2d getJungleLowerLeft(){
+        return this.jungleLowerLeft;
+    }
+
+    public Vector2d getJungleUpperRight(){
+        return this.jungleUpperRight;
+    }
+
+    public int getJunglelwidth(){
+        return this.junglelwidth;
+    }
+
+    public int getJunglelheight(){
+        return this.junglelheight;
+    }
+
+    public int getNumberOfAnimals(){
+        return this.getAnimalsAsList().size();
+    }
+
+    public int getNumberOfGrasses(){
+        return this.getGrassesAsList().size();
+    }
+
+    public double getAverageEnergy(){
+        List<Animal> animals = this.getAnimalsAsList();
+        double result = 0;
+        for(Animal animal : animals){
+            result += animal.getEnergy();
+        }
+
+        result /= animals.size();
+        return  result;
+    }
+
 
 }

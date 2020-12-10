@@ -7,16 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 public class SimulationEngine {
-    SimulationMap map;
+    public SimulationMap map;
 
     public SimulationEngine(IWorldMap map){
         this.map = (SimulationMap)map;
     }
 
     public void run(){
-        int i = 1;
-        while (i < 100){
-            i++;
             map.removeDeadAnimals();
             map.moveAllAnimals();
             map.tryEatGrasses();
@@ -31,6 +28,5 @@ public class SimulationEngine {
             System.out.println(map.steppeFreeSpaces());
             System.out.println(map.getGrassesAsList());
             System.out.println("--------");
-        }
     }
 }
