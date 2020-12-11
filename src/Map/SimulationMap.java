@@ -23,7 +23,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     private Map<Vector2d, List<Animal>> animalMap = new HashMap<>();
     private Map<Vector2d, Grass> grassMap = new HashMap<>();
 
-    public SimulationMap(int width, int height, double jungleRatio, int startEnergy, int grassEnergy, int moveEnergy){
+    public SimulationMap(int width, int height, double jungleRatio, int startEnergy, int grassEnergy, int moveEnergy, List<Vector2d> positions){
         this.mapLowerLeft = new Vector2d(0,0);
         this.mapUpperRight = new Vector2d(width-1, height-1);
         this.width = width;
@@ -36,6 +36,13 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         this.startEnergy = startEnergy;
         this.grassEnergy = grassEnergy;
         this.moveEnergy = moveEnergy;
+
+
+        int i = 0;
+        while (i < positions.size()){
+            this.placeAnimalAtFreePosition(new Animal(positions.get(i), this.startEnergy, this, this, new Genes(32,8)));
+            i++;
+        }
     }
 
     //getters

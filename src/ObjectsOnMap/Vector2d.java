@@ -1,6 +1,7 @@
 package ObjectsOnMap;
 
 import Map.IWorldMap;
+import Map.SimulationStartData;
 
 import java.util.Objects;
 
@@ -21,6 +22,12 @@ public class Vector2d {
 
         this.x = (int)(Math.random()*(mapUpperRigth.x - mapLowerLeft.x));
         this.y = (int)(Math.random()*(mapUpperRigth.y - mapLowerLeft.y));
+    }
+
+    public Vector2d(SimulationStartData data){
+
+        this.x = (int)(Math.random()*(data.width - 1));
+        this.y = (int)(Math.random()*(data.height - 1));
     }
 
     public String toString(){

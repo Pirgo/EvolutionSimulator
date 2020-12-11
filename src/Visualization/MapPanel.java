@@ -32,6 +32,7 @@ public class MapPanel extends JPanel {
         this.panelHeigth = this.heigthRatio * map.getHeight();
         setPreferredSize(new Dimension(this.panelWidth, this.panelHeigth));
         setLocation(0,0);
+        setLayout(null);
 
 
     }

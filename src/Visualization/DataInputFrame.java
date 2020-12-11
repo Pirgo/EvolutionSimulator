@@ -2,6 +2,7 @@ package Visualization;
 
 import Map.SimulationEngine;
 import Map.SimulationMap;
+import Map.SimulationStartData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
     private JSpinner jungleRatioSpinner;
     private JSpinner numberOfMapsSpinner;
     private JSpinner numberOfAnimalSpinner;
+    private SimulationStartData simulationData;
 
     //TODO change dimensions
     public DataInputFrame(){
@@ -53,7 +55,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
         JLabel energyStartLabel = new JLabel("Start energy");
         energyStartLabel.setBounds(10,80,80,25);
         inputPanel.add(energyStartLabel);
-        SpinnerModel energyStart = new SpinnerNumberModel(11,10,100,1);
+        SpinnerModel energyStart = new SpinnerNumberModel(40,10,100,1);
         JSpinner energyStartSpinner = new JSpinner(energyStart);
         energyStartSpinner.setBounds(100,80,165,25);
         inputPanel.add(energyStartSpinner);
@@ -62,7 +64,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
         JLabel energyMoveLabel = new JLabel("Move energy");
         energyMoveLabel.setBounds(10,110,80,25);
         inputPanel.add(energyMoveLabel);
-        SpinnerModel energyMove = new SpinnerNumberModel(0,0,100,1);
+        SpinnerModel energyMove = new SpinnerNumberModel(1,0,100,1);
         JSpinner energyMoveSpinner = new JSpinner(energyMove);
         energyMoveSpinner.setBounds(100,110,165,25);
         inputPanel.add(energyMoveSpinner);
@@ -71,7 +73,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
         JLabel energyGrassLabel = new JLabel("Grass energy");
         energyGrassLabel.setBounds(10,140,80,25);
         inputPanel.add(energyGrassLabel);
-        SpinnerModel energyGrass = new SpinnerNumberModel(0,0,100,1);
+        SpinnerModel energyGrass = new SpinnerNumberModel(10,0,100,1);
         JSpinner energyGrassSpinner = new JSpinner(energyGrass);
         energyGrassSpinner.setBounds(100,140,165,25);
         inputPanel.add(energyGrassSpinner);
@@ -99,7 +101,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
         JLabel numberOfAnimalsLabel = new JLabel("Animals");
         numberOfAnimalsLabel.setBounds(10,230,80,25);
         inputPanel.add(numberOfAnimalsLabel);
-        SpinnerModel numberOfAnimals = new SpinnerNumberModel(1,1,100,1);
+        SpinnerModel numberOfAnimals = new SpinnerNumberModel(10,1,100,1);
         JSpinner numberOfAnimalsSpinner = new JSpinner(numberOfAnimals);
         numberOfAnimalsSpinner.setBounds(100,230,165,25);
         inputPanel.add(numberOfAnimalsSpinner);
@@ -115,38 +117,63 @@ public class DataInputFrame extends JFrame implements ActionListener {
 
 
     }
-    //TODO datainterface
+
     @Override
     public void actionPerformed(ActionEvent e) {
         setVisible(false);
+        loadData();
         visualizationTest();
     }
-    //TODO repair that and map init with animals
-    public void visualizationTest(){
-        System.out.println((int)this.widthSpinner.getValue());
-        System.out.println((int)this.heightSpinner.getValue());
-        System.out.println((double)this.jungleRatioSpinner.getValue());
-        System.out.println((int)this.energyStartSpinner.getValue());
-        System.out.println((int)this.energyGrassSpinner.getValue());
-        System.out.println((int)this.energyMoveSpinner.getValue());
 
-        SimulationMap map = new SimulationMap(
+    public void loadData(){
+        this.simulationData = new SimulationStartData(
                 (int)this.widthSpinner.getValue(),
                 (int)this.heightSpinner.getValue(),
-                (double)this.jungleRatioSpinner.getValue(),
                 (int)this.energyStartSpinner.getValue(),
+                (int)this.energyMoveSpinner.getValue(),
                 (int)this.energyGrassSpinner.getValue(),
-                (int)this.energyMoveSpinner.getValue());
-        SimulationMap map2 = new SimulationMap(26,26,0.5,40, 10, 1);
+                (double)this.jungleRatioSpinner.getValue(),
+                (int)this.numberOfMapsSpinner.getValue(),
+                (int)this.numberOfAnimalSpinner.getValue()
+        );
+    }
 
-        SimulationEngine engine2 = new SimulationEngine(map2);
-        int nmbAnimals = (int)this.numberOfAnimalSpinner.getValue();
+    //TODO repair that and map init with animals
+    public void visualizationTest(){
+
+        SimulationMap map = new SimulationMap(
+                this.simulationData.width,
+                this.simulationData.height,
+                this.simulationData.jungleRatio,
+                this.simulationData.energyStart,
+                this.simulationData.energyGrass,
+                this.simulationData.energyMove,
+                this.simulationData.startingPositions
+
+        );
         SimulationEngine engine = new SimulationEngine(map);
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Frame(engine, nmbAnimals);
-            }
-        });
+
+
+
+
+
+
+        new Frame(engine);
+
+        if(this.simulationData.numberOfMaps == 2){
+            SimulationMap map2 = new SimulationMap(
+                    this.simulationData.width,
+                    this.simulationData.height,
+                    this.simulationData.jungleRatio,
+                    this.simulationData.energyStart,
+                    this.simulationData.energyGrass,
+                    this.simulationData.energyMove,
+                    this.simulationData.startingPositions
+            );
+            SimulationEngine engine2 = new SimulationEngine(map2);
+
+            new Frame(engine2);
+        }
+
     }
 }

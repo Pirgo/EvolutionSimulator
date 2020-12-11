@@ -21,14 +21,12 @@ public class Frame extends JFrame implements ActionListener {
     public MapPanel mapPanel;
     public StatistickPanel statPanel;
     public Timer timer;
-    public int animalsAtStart;
 
-    public Frame(SimulationEngine engine, int animalsAtStart){
+    public Frame(SimulationEngine engine){
         super("EvolutionSimulator");
         this.engine = engine;
         this.map = engine.map;
         this.timer = new Timer(100, this::actionPerformed);
-        this.animalsAtStart = animalsAtStart;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setVisible(true);
@@ -37,29 +35,21 @@ public class Frame extends JFrame implements ActionListener {
 
         JButton startButton = new JButton("Start");
         startButton.addActionListener(this::startTimer);
+        startButton.setBounds(10,525,100,40);
         mapPanel.add(startButton);
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(this::stopTimer);
+        stopButton.setBounds(110,525,100,40);
         mapPanel.add(stopButton);
 
         
 
-        this.startSimulation();
 
 
 
-    }
-    //infinite if number of start animals are higher than number of fields
-    public void startSimulation(){
-        int i = 0;
-        while (i < this.animalsAtStart){
-            Animal animal = new Animal(new Vector2d(this.map), this.map.getStartEnergy(), this.map, this.map, new Genes(32,8));
-            if(this.map.placeAnimalAtFreePosition(animal)){
-                i++;
-            }
-        }
 
     }
+
 
 
     @Override
