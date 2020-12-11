@@ -6,9 +6,8 @@ import Map.MapDirection;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
+
 
 public class Animal implements IMapElement {
     private Vector2d position;
@@ -17,6 +16,8 @@ public class Animal implements IMapElement {
     private MapDirection orientation;
     private List<IPositionChangeObserver> observers = new ArrayList<>();
     private IWorldMap map;
+    private int numberOfchilds;
+    public int livedDays;
 
     public Animal(Vector2d position, double energy, IWorldMap map, IPositionChangeObserver observer, Genes gene){
         this.position = position;
@@ -25,6 +26,8 @@ public class Animal implements IMapElement {
         this.orientation = MapDirection.NORTH.random();
         this.map = map;
         this.addObserver(observer);
+        this.numberOfchilds = 0;
+        this.livedDays = 0;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class Animal implements IMapElement {
     public void move(){
         int tmpx;
         int tmpy;
-
+        this.livedDays += 1;
         if(this.position.x + this.orientation.toUnitVector().x < map.getMapLowerLeft().x){
             tmpx = (map.getWidth() - Math.abs((this.position.x + this.orientation.toUnitVector().x)%map.getWidth())) % map.getWidth();
         }
@@ -80,6 +83,7 @@ public class Animal implements IMapElement {
 
     public void copulate(){
         this.energy -= this.energy * 0.25;
+        this.numberOfchilds += 1;
     }
 
     public void addObserver(IPositionChangeObserver observer){
@@ -115,6 +119,10 @@ public class Animal implements IMapElement {
 
     public Genes getGene(){
         return this.gene;
+    }
+
+    public int getNumberOfchilds(){
+        return this.numberOfchilds;
     }
 
     //need to change

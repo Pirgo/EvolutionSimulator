@@ -22,6 +22,7 @@ public class Frame extends JFrame implements ActionListener {
     public StatistickPanel statPanel;
     public Timer timer;
 
+    //todo move to MapPanel, add coordinates
     public Frame(SimulationEngine engine){
         super("EvolutionSimulator");
         this.engine = engine;
@@ -31,6 +32,7 @@ public class Frame extends JFrame implements ActionListener {
         setSize(1200, 800);
         setVisible(true);
         this.mapPanel = new MapPanel(this.map, this.getSize());
+
         add(mapPanel);
 
         JButton startButton = new JButton("Start");
@@ -41,6 +43,11 @@ public class Frame extends JFrame implements ActionListener {
         stopButton.addActionListener(this::stopTimer);
         stopButton.setBounds(110,525,100,40);
         mapPanel.add(stopButton);
+
+        StatistickPanel stats = new StatistickPanel(this.map);
+        this.statPanel = stats;
+        mapPanel.add(stats);
+
 
         
 
@@ -56,6 +63,7 @@ public class Frame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         this.engine.run();
         this.mapPanel.repaint();
+        this.statPanel.updateStats();
 
 
     }

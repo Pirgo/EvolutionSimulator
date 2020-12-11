@@ -4,6 +4,8 @@ import ObjectsOnMap.*;
 
 import java.util.*;
 
+
+//TODO maybe add animalsList and GrassLiist, it will wriiten with this.getAnimalsAsList
 public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     private final Vector2d mapUpperRight;
     private final Vector2d mapLowerLeft;
@@ -19,6 +21,10 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     private final int startEnergy;
     private final int grassEnergy;
     private final int moveEnergy;
+
+    private int numberOfDeadAnimals;
+    private int sumOfDaysLivedByDeadAnimals;
+    private int day;
 
     private Map<Vector2d, List<Animal>> animalMap = new HashMap<>();
     private Map<Vector2d, Grass> grassMap = new HashMap<>();
@@ -37,7 +43,13 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         this.grassEnergy = grassEnergy;
         this.moveEnergy = moveEnergy;
 
+        this.numberOfDeadAnimals = 0;
+        this.sumOfDaysLivedByDeadAnimals = 0;
+        this.day = 0;
 
+
+
+        //TODO change length of gene and nuberofuniqegenes, or change genes class
         int i = 0;
         while (i < positions.size()){
             this.placeAnimalAtFreePosition(new Animal(positions.get(i), this.startEnergy, this, this, new Genes(32,8)));
@@ -279,6 +291,8 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         for(Animal a : animalsToRemove){
             if(a.isDead()){
                 a.removeObserver(this);
+                this.numberOfDeadAnimals += 1;
+                this.sumOfDaysLivedByDeadAnimals += a.livedDays;
                 removeAnimal(a, a.getPosition());
             }
         }
@@ -390,6 +404,53 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
 
         result /= animals.size();
         return  result;
+    }
+
+    //TODO dunno if it is correct, hardcoded number of genes, rename methods name
+    public int getDominantGenotype(){
+        int[] geneCounter = new int[8];
+        List<Animal> animals = this.getAnimalsAsList();
+        for(Animal animal : animals){
+            int[] genetyppe = animal.getGene().getGene();
+            for(int i = 0; i<genetyppe.length ; i++){
+                geneCounter[genetyppe[i]] ++;
+            }
+        }
+        int max = 0;
+        int index = 0;
+        for(int i = 0; i<8; i++){
+            if(geneCounter[i] > max){
+                max = geneCounter[i];
+                index = i;
+            }
+        }
+
+        return index;
+
+    }
+
+    public double getAverageChildCount(){
+        List<Animal> animals = this.getAnimalsAsList();
+        double result = 0;
+        for(Animal animal : animals){
+            result += (double)animal.getNumberOfchilds();
+        }
+        if(animals.size() > 0){
+            result = result/animals.size();
+        }
+        return result;
+    }
+
+    public double getAverageDaysLivedByAnimal(){
+        return (double)this.sumOfDaysLivedByDeadAnimals/(double)this.numberOfDeadAnimals;
+    }
+
+    public void increaseDay(){
+        this.day += 1;
+    }
+
+    public int getDays(){
+        return this.day;
     }
 
 

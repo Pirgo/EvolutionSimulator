@@ -19,6 +19,7 @@ public class SimulationEngine {
             map.tryEatGrasses();
             map.copulateAll();
             map.placeTwoGrasses();
+            map.increaseDay();
             Map<Vector2d, List<Animal>> tmp = map.tmp();
             for (Map.Entry<Vector2d, List<Animal>> entry : tmp.entrySet()) {
                 System.out.println(entry);
