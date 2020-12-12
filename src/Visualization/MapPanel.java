@@ -8,11 +8,13 @@ import ObjectsOnMap.Grass;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class MapPanel extends JPanel {
+public class MapPanel extends JPanel implements MouseListener {
     public int panelWidth;
     public int panelHeigth;
     public SimulationMap map;
@@ -30,9 +32,11 @@ public class MapPanel extends JPanel {
         this.heigthRatio = Math.round(500/  map.getHeight());
         this.panelWidth = this.widthRatio * map.getWidth();
         this.panelHeigth = this.heigthRatio * map.getHeight();
+        setSize(new Dimension(this.panelWidth, this.panelHeigth));
         setPreferredSize(new Dimension(this.panelWidth, this.panelHeigth));
         setLocation(0,0);
         setLayout(null);
+        this.addMouseListener(this);
 
 
     }
@@ -67,5 +71,30 @@ public class MapPanel extends JPanel {
             g2d.fillOval(xPos * widthRatio,yPos * heigthRatio,widthRatio,heigthRatio);
 
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("DZIALA" + (int)Math.floor(e.getX()/this.widthRatio) +"_"+ (int)Math.floor(e.getY()/this.heigthRatio));
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
