@@ -7,10 +7,11 @@ import ObjectsOnMap.Genes;
 import ObjectsOnMap.Vector2d;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,7 @@ public class Frame extends JFrame implements ActionListener {
 
         JButton saveButton = new JButton("Save");
         saveButton.setBounds(40,590,150,40);
+        saveButton.addActionListener(this::save);
         mapPanel.add(saveButton);
 
         StatistickPanel stats = new StatistickPanel(this.map);
@@ -103,6 +105,24 @@ public class Frame extends JFrame implements ActionListener {
         this.timer.start();
         this.startButton.setEnabled(false);
         this.stopButton.setEnabled(true);
+    }
+
+    public void save(ActionEvent e){
+        System.out.println(this.statPanel.toString());
+        String text = this.statPanel.toString();
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "txt");
+        fileChooser.addChoosableFileFilter(filter);
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            if(!file.getName().contains(".")) file =new File(file.toString() + ".txt");
+            try (PrintWriter out = new PrintWriter(file)) {
+                out.println(text);
+            }catch (FileNotFoundException event){
+                event.printStackTrace();
+            }
+        }
     }
 
 
