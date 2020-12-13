@@ -26,7 +26,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     private int sumOfDaysLivedByDeadAnimals;
     private int day;
 
-    private Map<Vector2d, List<Animal>> animalMap = new HashMap<>();
+    public Map<Vector2d, List<Animal>> animalMap = new HashMap<>();
     private Map<Vector2d, Grass> grassMap = new HashMap<>();
 
     public SimulationMap(int width, int height, double jungleRatio, int startEnergy, int grassEnergy, int moveEnergy, List<Vector2d> positions){
@@ -290,6 +290,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         List<Animal> animalsToRemove = this.getAnimalsAsList();
         for(Animal a : animalsToRemove){
             if(a.isDead()){
+                a.dayOfDeath = this.day;
                 a.removeObserver(this);
                 this.numberOfDeadAnimals += 1;
                 this.sumOfDaysLivedByDeadAnimals += a.livedDays;

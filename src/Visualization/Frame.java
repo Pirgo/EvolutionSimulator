@@ -10,46 +10,67 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-
+//todo savebutton
 public class Frame extends JFrame implements ActionListener {
 
     public SimulationMap map;
     public SimulationEngine engine;
     public MapPanel mapPanel;
     public StatistickPanel statPanel;
+    public JButton startButton;
+    public JButton stopButton;
+    public JButton saveButton;
     public Timer timer;
 
     //todo move to MapPanel, add coordinates
-    public Frame(SimulationEngine engine){
+    //Todo maybe add back to setting button
+    public Frame(SimulationEngine engine, Vector2d loacation){
         super("EvolutionSimulator");
         this.engine = engine;
         this.map = engine.map;
         this.timer = new Timer(100, this::actionPerformed);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 800);
+        setSize(510, 700);
+//        setBackground(Color.white);
         setVisible(true);
-        this.mapPanel = new MapPanel(this.map, this.getSize());
+        try{
+            this.mapPanel = new MapPanel(this.map, this.getSize(), this);
+        }catch (IOException e){
+            System.out.println("Nie udało wczytać się zdjęc");
+        }
 
+
+
+        setLocation(loacation.x,loacation.y);
         add(mapPanel);
 
         JButton startButton = new JButton("Start");
         startButton.addActionListener(this::startTimer);
-        startButton.setBounds(10,525,100,40);
+        startButton.setBounds(40,510,150,40);
+        this.startButton = startButton;
         mapPanel.add(startButton);
+
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(this::stopTimer);
-        stopButton.setBounds(110,525,100,40);
+        stopButton.setBounds(40,550,150,40);
+        stopButton.setEnabled(false);
+        this.stopButton = stopButton;
         mapPanel.add(stopButton);
+
+        JButton saveButton = new JButton("Save");
+        saveButton.setBounds(40,590,150,40);
+        mapPanel.add(saveButton);
 
         StatistickPanel stats = new StatistickPanel(this.map);
         this.statPanel = stats;
         mapPanel.add(stats);
 
 
-        
+
 
 
 
@@ -64,16 +85,24 @@ public class Frame extends JFrame implements ActionListener {
         this.engine.run();
         this.mapPanel.repaint();
         this.statPanel.updateStats();
+        if(this.mapPanel.details != null){
+            this.mapPanel.details.updateAnimalDetails();
+        }
+
 
 
     }
 
     public void stopTimer(ActionEvent e){
         this.timer.stop();
+        this.stopButton.setEnabled(false);
+        this.startButton.setEnabled(true);
     }
 
     public void startTimer(ActionEvent e){
         this.timer.start();
+        this.startButton.setEnabled(false);
+        this.stopButton.setEnabled(true);
     }
 
 

@@ -65,7 +65,12 @@ public class tmp {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new DataInputFrame();
+                try {
+                    new DataInputFrame();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
         });
     }

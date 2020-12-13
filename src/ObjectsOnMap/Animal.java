@@ -18,6 +18,7 @@ public class Animal implements IMapElement {
     private IWorldMap map;
     private int numberOfchilds;
     public int livedDays;
+    public int dayOfDeath;
 
     public Animal(Vector2d position, double energy, IWorldMap map, IPositionChangeObserver observer, Genes gene){
         this.position = position;
@@ -28,6 +29,7 @@ public class Animal implements IMapElement {
         this.addObserver(observer);
         this.numberOfchilds = 0;
         this.livedDays = 0;
+        this.dayOfDeath = 0;
     }
 
     @Override

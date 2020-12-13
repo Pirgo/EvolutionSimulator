@@ -14,9 +14,11 @@ public class StatistickPanel extends JPanel {
 
     public StatistickPanel(SimulationMap map){
         this.map = map;
-        setBounds(500,0,300,500);
+        setBounds(200,500,300,500);
+        //setSize(300,500);
         updateStats();
         setVisible(true);
+        setBackground(Color.white);
         add(this.stats);
 
 

@@ -4,12 +4,14 @@ package Visualization;
 import Map.SimulationMap;
 import ObjectsOnMap.Animal;
 import ObjectsOnMap.Grass;
+import ObjectsOnMap.Vector2d;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,21 +24,35 @@ public class MapPanel extends JPanel implements MouseListener {
     public int heigthRatio;
     public Dimension frameDim;
     private BufferedImage grassImg;
+    private BufferedImage animalImg;
+    public AnimalDetailsFrame details;
+    public Frame frame;
 
-    // need to add ratio
-    public MapPanel(SimulationMap map, Dimension size){
+    // todo remove dimensions, replace with frame.get...
+    public MapPanel(SimulationMap map, Dimension size, Frame frame) throws IOException{
         this.map = map;
+        this.frame = frame;
         this.frameDim = size;
         System.out.println(frameDim.width);
         this.widthRatio = Math.round(500 / map.getWidth());
         this.heigthRatio = Math.round(500/  map.getHeight());
         this.panelWidth = this.widthRatio * map.getWidth();
         this.panelHeigth = this.heigthRatio * map.getHeight();
+        System.out.println(this.panelWidth + "SSA");
         setSize(new Dimension(this.panelWidth, this.panelHeigth));
         setPreferredSize(new Dimension(this.panelWidth, this.panelHeigth));
-        setLocation(0,0);
         setLayout(null);
+        setBackground(Color.white);
         this.addMouseListener(this);
+
+
+        this.grassImg = ImageIO.read(new File("src/Visualization/images/grass2.png"));
+        if(this.grassImg == null) throw new IOException();
+
+        this.animalImg = ImageIO.read(new File("src/Visualization/images/animal1.png"));
+        if(this.animalImg == null) throw new IOException();
+
+
 
 
     }
@@ -56,26 +72,33 @@ public class MapPanel extends JPanel implements MouseListener {
 
         //draw grass
         for(Grass grass : this.map.getGrassesAsList()){
-            g2d.setColor(new Color(30, 61, 23));
             int xPos = map.toNoBoundedPosition(grass.getPosition()).x;
             int yPos = map.toNoBoundedPosition(grass.getPosition()).y;
-            g2d.fillRect(xPos * widthRatio,yPos * heigthRatio,widthRatio,heigthRatio);
+            g2d.drawImage(this.grassImg, xPos*widthRatio, yPos*heigthRatio, widthRatio,heigthRatio, null);
         }
 
         //draw animals
         for(Animal animal : this.map.getAnimalsAsList()){
-            // temporary solution
             g2d.setColor(animal.animalColor());
             int xPos = map.toNoBoundedPosition(animal.getPosition()).x;
             int yPos = map.toNoBoundedPosition(animal.getPosition()).y;
             g2d.fillOval(xPos * widthRatio,yPos * heigthRatio,widthRatio,heigthRatio);
+            g2d.drawImage(this.animalImg, xPos*widthRatio, yPos*heigthRatio, widthRatio,heigthRatio, null);
+
+//            g2d.setColor(new Color(20,202,20));
+//            g2d.fillOval(xPos * widthRatio,yPos * heigthRatio,widthRatio/2,heigthRatio/2);
 
         }
     }
 
+
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println("DZIALA" + (int)Math.floor(e.getX()/this.widthRatio) +"_"+ (int)Math.floor(e.getY()/this.heigthRatio));
+        Vector2d animalPosition = new Vector2d((int)Math.floor(e.getX()/this.widthRatio), (int)Math.floor(e.getY()/this.heigthRatio));
+        if(!this.map.isOccupiedByAnimal(animalPosition)) return;
+        if(this.details !=null) this.details.dispatchEvent(new WindowEvent(this.details, WindowEvent.WINDOW_CLOSING));
+        this.details = new AnimalDetailsFrame(animalPosition, this.map, this.frame);
     }
 
     @Override
