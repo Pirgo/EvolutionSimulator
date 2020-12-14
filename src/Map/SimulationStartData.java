@@ -2,7 +2,7 @@ package Map;
 
 import ObjectsOnMap.Vector2d;
 
-import javax.swing.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

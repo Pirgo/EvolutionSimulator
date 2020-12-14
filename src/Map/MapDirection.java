@@ -1,4 +1,7 @@
+
 package Map;
+
+//repair done
 
 import ObjectsOnMap.Vector2d;
 
@@ -42,7 +45,7 @@ public enum MapDirection {
         }
         return null;
     }
-
+//todo can be deleted
     public MapDirection previous(){
         switch (this){
             case NORTH: return NORTHWEST;

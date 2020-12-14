@@ -1,23 +1,22 @@
+//repair probably done
 package ObjectsOnMap;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Genes {
     private int[] gene;
-    private final int lengthOfGene;
-    private final int numberOfUniqueGenes;
+    private final int lengthOfGene = 32;
+    private final int numberOfUniqueGenes = 8;
 
-    public Genes(int lengthOfGene, int numberOfUniqueGenes){
-        this.gene = new int[lengthOfGene];
-        this.lengthOfGene = lengthOfGene;
-        this.numberOfUniqueGenes = numberOfUniqueGenes;
+    public Genes(){
+        this.gene = new int[this.lengthOfGene];
+
         generateRandomGene();
     }
 
     public Genes(Genes gene1, Genes gene2){
-        this(gene1.getLengthOfGene(), gene1.getNumberOfUniqueGenes());
-        if(gene1.getLengthOfGene() != gene2.getLengthOfGene()) throw new IllegalArgumentException("Different gene length");
-        if(gene1.getNumberOfUniqueGenes() != gene2.getNumberOfUniqueGenes()) throw new IllegalArgumentException("Different nmb of gene types");
+        this();
 
         int whereToCut1 = (int)(Math.random()*(this.lengthOfGene - 1));
         int whereToCut2 = (int)(Math.random()*(this.lengthOfGene - 1));
@@ -30,8 +29,7 @@ public class Genes {
             whereToCut1 = whereToCut2;
             whereToCut2 = tmp;
         }
-        System.out.println(whereToCut1);
-        System.out.println(whereToCut2);
+
         int[] gene1arr = gene1.getGene();
         int[] gene2arr = gene2.getGene();
         for(int i = 0; i<whereToCut1; i++){
@@ -45,8 +43,6 @@ public class Genes {
         }
 
         repairGene();
-
-
 
 
     }
@@ -63,17 +59,18 @@ public class Genes {
         return this.gene;
     }
 
-    //private??
+
     private void generateRandomGene(){
         for(int i = 0; i < this.lengthOfGene; i++){
             this.gene[i] = (int)(Math.random()*this.numberOfUniqueGenes);
         }
+
         Arrays.sort(this.gene);
 
         repairGene();
     }
 
-    //private??
+
     private void repairGene(){
         int[] numberOfGeneInDNA = new int[this.numberOfUniqueGenes];
         Arrays.fill(numberOfGeneInDNA ,0);

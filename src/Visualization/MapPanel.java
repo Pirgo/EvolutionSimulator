@@ -23,8 +23,8 @@ public class MapPanel extends JPanel implements MouseListener {
     public int widthRatio;
     public int heigthRatio;
     public Dimension frameDim;
-    private BufferedImage grassImg;
-    private BufferedImage animalImg;
+    private final BufferedImage grassImg;
+    private final BufferedImage animalImg;
     public AnimalDetailsFrame details;
     public Frame frame;
 
@@ -34,8 +34,8 @@ public class MapPanel extends JPanel implements MouseListener {
         this.frame = frame;
         this.frameDim = size;
         System.out.println(frameDim.width);
-        this.widthRatio = Math.round(500 / map.getWidth());
-        this.heigthRatio = Math.round(500/  map.getHeight());
+        this.widthRatio = (int)Math.round(500 / (double)map.getWidth());
+        this.heigthRatio = (int)Math.round(500/  (double)map.getHeight());
         this.panelWidth = this.widthRatio * map.getWidth();
         this.panelHeigth = this.heigthRatio * map.getHeight();
         System.out.println(this.panelWidth + "SSA");
@@ -68,7 +68,7 @@ public class MapPanel extends JPanel implements MouseListener {
 
         //draw jungle
         g2d.setColor(new Color(0, 170, 0));
-        g2d.fillRect(this.map.getJungleLowerLeft().x * widthRatio, this.map.getJungleLowerLeft().y * heigthRatio, this.map.getJunglelwidth() * widthRatio, this.map.getJunglelheight() * heigthRatio);
+        g2d.fillRect(this.map.getJungleLowerLeft().x * widthRatio, this.map.getJungleLowerLeft().y * heigthRatio, this.map.getJungleWidth() * widthRatio, this.map.getJungleHeight() * heigthRatio);
 
         //draw grass
         for(Grass grass : this.map.getGrassesAsList()){
@@ -85,8 +85,6 @@ public class MapPanel extends JPanel implements MouseListener {
             g2d.fillOval(xPos * widthRatio,yPos * heigthRatio,widthRatio,heigthRatio);
             g2d.drawImage(this.animalImg, xPos*widthRatio, yPos*heigthRatio, widthRatio,heigthRatio, null);
 
-//            g2d.setColor(new Color(20,202,20));
-//            g2d.fillOval(xPos * widthRatio,yPos * heigthRatio,widthRatio/2,heigthRatio/2);
 
         }
     }
@@ -94,8 +92,8 @@ public class MapPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("DZIALA" + (int)Math.floor(e.getX()/this.widthRatio) +"_"+ (int)Math.floor(e.getY()/this.heigthRatio));
-        Vector2d animalPosition = new Vector2d((int)Math.floor(e.getX()/this.widthRatio), (int)Math.floor(e.getY()/this.heigthRatio));
+        System.out.println("DZIALA" + (int)Math.floor(e.getX()/(double)this.widthRatio) +"_"+ (int)Math.floor(e.getY()/(double)this.heigthRatio));
+        Vector2d animalPosition = new Vector2d((int)Math.floor(e.getX()/(double)this.widthRatio), (int)Math.floor(e.getY()/(double)this.heigthRatio));
         if(!this.map.isOccupiedByAnimal(animalPosition)) return;
         if(this.details !=null) this.details.dispatchEvent(new WindowEvent(this.details, WindowEvent.WINDOW_CLOSING));
         this.details = new AnimalDetailsFrame(animalPosition, this.map, this.frame);

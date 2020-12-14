@@ -5,7 +5,6 @@ import ObjectsOnMap.*;
 import java.util.*;
 
 
-//TODO maybe add animalsList and GrassLiist, it will wriiten with this.getAnimalsAsList
 public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     private final Vector2d mapUpperRight;
     private final Vector2d mapLowerLeft;
@@ -14,8 +13,8 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
 
     private final int width;
     private final int height;
-    private final int junglelwidth;
-    private final int junglelheight;
+    private final int jungleWidth;
+    private final int jungleHeight;
 
 
     private final int startEnergy;
@@ -26,7 +25,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     private int sumOfDaysLivedByDeadAnimals;
     private int day;
 
-    public Map<Vector2d, List<Animal>> animalMap = new HashMap<>();
+    private Map<Vector2d, List<Animal>> animalMap = new HashMap<>();
     private Map<Vector2d, Grass> grassMap = new HashMap<>();
 
     public SimulationMap(int width, int height, double jungleRatio, int startEnergy, int grassEnergy, int moveEnergy, List<Vector2d> positions){
@@ -34,11 +33,11 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         this.mapUpperRight = new Vector2d(width-1, height-1);
         this.width = width;
         this.height = height;
-        this.junglelwidth = (int)(jungleRatio * width);
-        this.junglelheight = (int)(jungleRatio * height);
+        this.jungleWidth = (int)(jungleRatio * width);
+        this.jungleHeight = (int)(jungleRatio * height);
 
-        this.jungleLowerLeft = new Vector2d((width - junglelwidth)/2, (height - junglelheight)/2);
-        this.jungleUpperRight = new Vector2d((width - junglelwidth)/2 + junglelwidth, (height - junglelheight)/2 + junglelheight);
+        this.jungleLowerLeft = new Vector2d((width - jungleWidth)/2, (height - jungleHeight)/2);
+        this.jungleUpperRight = new Vector2d((width - jungleWidth)/2 + jungleWidth, (height - jungleHeight)/2 + jungleHeight);
         this.startEnergy = startEnergy;
         this.grassEnergy = grassEnergy;
         this.moveEnergy = moveEnergy;
@@ -49,10 +48,9 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
 
 
 
-        //TODO change length of gene and nuberofuniqegenes, or change genes class
         int i = 0;
         while (i < positions.size()){
-            this.placeAnimalAtFreePosition(new Animal(positions.get(i), this.startEnergy, this, this, new Genes(32,8)));
+            this.placeAnimalAtFreePosition(new Animal(positions.get(i), this.startEnergy, this, this, new Genes()));
             i++;
         }
     }
@@ -77,46 +75,62 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         return this.height;
     }
 
-    public double getMoveEnergy(){
-        return (double)this.moveEnergy;
+    public int getMoveEnergy(){
+        return this.moveEnergy;
     }
 
-    public double getStartEnergy(){
-        return (double)this.startEnergy;
+    public int getStartEnergy(){
+        return this.startEnergy;
+    }
+
+    public int getGrassEnergy(){ return this.grassEnergy;}
+
+    public Vector2d getJungleLowerLeft(){
+        return this.jungleLowerLeft;
+    }
+
+    public Vector2d getJungleUpperRight(){
+        return this.jungleUpperRight;
+    }
+
+    public int getJungleWidth(){
+        return this.jungleWidth;
+    }
+
+    public int getJungleHeight(){
+        return this.jungleHeight;
+    }
+
+    public Map<Vector2d, Grass> getGrassMap(){
+        return this.grassMap;
+    }
+
+    public Map<Vector2d, List<Animal>> getAnimalMap(){
+        return this.animalMap;
     }
 
     //place animal at the not occupied position, it will be used at start
-    public boolean placeAnimalAtFreePosition(Animal animal){
+    public void placeAnimalAtFreePosition(Animal animal){
         if(this.animalMap.get(animal.getPosition()) == null){
             List<Animal> animalListAtPosition = new ArrayList<>();
             animalListAtPosition.add(animal);
             this.animalMap.put(animal.getPosition(), animalListAtPosition);
-            return true;
         }
 
-        return false;
     }
 
     public boolean isOccupiedByAnimal(Vector2d position){
-        if(this.animalMap.get(position) == null){
-            return false;
-        }
-        return true;
+        return this.animalMap.get(position) != null;
     }
 
     public boolean isOccupiedByGrass(Vector2d position){
-        if(this.grassMap.get(position) == null){
-            return false;
-        }
-        return true;
+        return this.grassMap.get(position) != null;
     }
 
     public List<Object> objectsAtPosition(Vector2d position){
         List<Object> result = new ArrayList<>();
         if(isOccupiedByAnimal(position)){
-            for(Animal a : this.animalMap.get(position)){
-                result.add(a);
-            }
+            result.addAll(this.animalMap.get(position));
         }
         if(isOccupiedByGrass(position)){
             result.add(grassMap.get(position));
@@ -174,9 +188,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     public List<Animal> getAnimalsAsList(){
         List<Animal> animalsList = new ArrayList<>();
         for (Map.Entry<Vector2d, List<Animal>> entry : animalMap.entrySet()) {
-            for(Animal e: entry.getValue()) {
-                animalsList.add(e);
-            }
+            animalsList.addAll(entry.getValue());
         }
 
         return animalsList;
@@ -298,10 +310,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
             }
         }
     }
-    //tmp
-    public Map<Vector2d, List<Animal>> tmp(){
-        return this.animalMap;
-    }
+
 
 
     //need to change and same in Animal
@@ -344,11 +353,8 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
     public void copulateAll(){
         List<Animal> result = new ArrayList<>();
         for (Map.Entry<Vector2d, List<Animal>> entry : animalMap.entrySet()) {
-            List<Animal> animalsList = new ArrayList<>();
             if(entry.getValue().size() > 1){
-                for(Animal e: entry.getValue()) {
-                    animalsList.add(e);
-                }
+                List<Animal> animalsList = new ArrayList<>(entry.getValue());
                 animalsList.sort(new AnimalSorter());
                 Animal male = animalsList.get(0);
                 Animal female = animalsList.get(1);
@@ -372,22 +378,8 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         }
     }
 
-    public Vector2d getJungleLowerLeft(){
-        return this.jungleLowerLeft;
-    }
 
-    public Vector2d getJungleUpperRight(){
-        return this.jungleUpperRight;
-    }
-
-    public int getJunglelwidth(){
-        return this.junglelwidth;
-    }
-
-    public int getJunglelheight(){
-        return this.junglelheight;
-    }
-
+    //getters for stats
     public int getNumberOfAnimals(){
         return this.getAnimalsAsList().size();
     }
@@ -412,9 +404,9 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         int[] geneCounter = new int[8];
         List<Animal> animals = this.getAnimalsAsList();
         for(Animal animal : animals){
-            int[] genetyppe = animal.getGene().getGene();
-            for(int i = 0; i<genetyppe.length ; i++){
-                geneCounter[genetyppe[i]] ++;
+            int[] geneType = animal.getGene().getGene();
+            for (int value : geneType) {
+                geneCounter[value]++;
             }
         }
         int max = 0;
@@ -434,7 +426,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         List<Animal> animals = this.getAnimalsAsList();
         double result = 0;
         for(Animal animal : animals){
-            result += (double)animal.getNumberOfchilds();
+            result += animal.getNumberOfchilds();
         }
         if(animals.size() > 0){
             result = result/animals.size();

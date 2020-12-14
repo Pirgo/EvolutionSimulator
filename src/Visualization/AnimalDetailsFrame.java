@@ -22,7 +22,7 @@ public class AnimalDetailsFrame extends JFrame {
         setSize(510,200);
         setVisible(true);
         setLocation(frame.getX(), frame.getY()+frame.getHeight());
-        List<Animal> animalList = map.animalMap.get(animalPosition);
+        List<Animal> animalList = map.getAnimalMap().get(animalPosition);
         animalList.sort(new AnimalSorter());
         this.animal = animalList.get(0);
         updateAnimalDetails();

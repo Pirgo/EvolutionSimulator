@@ -1,9 +1,8 @@
 package Map;
 
-import ObjectsOnMap.Animal;
+
 import ObjectsOnMap.Vector2d;
 
-import java.util.Map;
 
 public interface IWorldMap {
     int getWidth();
@@ -14,9 +13,9 @@ public interface IWorldMap {
 
     Vector2d getMapUpperRigth();
 
-    double getMoveEnergy();
+    int getMoveEnergy();
 
-    double getStartEnergy();
+    int getStartEnergy();
 
 
 }

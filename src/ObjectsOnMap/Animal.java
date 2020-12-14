@@ -127,7 +127,7 @@ public class Animal implements IMapElement {
         return this.numberOfchilds;
     }
 
-    //need to change
+    //todo need to change
     public Color animalColor(){
         double startEnergy = map.getStartEnergy();
         if(this.energy < 0.1 * startEnergy ) return new Color(255, 0, 0);
