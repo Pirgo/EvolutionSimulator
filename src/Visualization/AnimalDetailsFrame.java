@@ -34,7 +34,7 @@ public class AnimalDetailsFrame extends JFrame {
         DefaultListModel<String> statsList = new DefaultListModel<>();
         statsList.addElement("Position: " + this.animal.getPosition());
         statsList.addElement("Gene: " + Arrays.toString(this.animal.getGene().getGene()));
-        statsList.addElement("Number of its childs: " + this.animal.getNumberOfchilds());
+        statsList.addElement("Number of its childs: " + this.animal.getNumberOfChilds());
         statsList.addElement("Energy: " +this.animal.getEnergy());
         if(this.animal.dayOfDeath!= 0){
             statsList.addElement("Day of death: " + this.animal.dayOfDeath);

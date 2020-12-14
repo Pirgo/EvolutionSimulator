@@ -1,11 +1,8 @@
 package Map;
 
-
 import Visualization.DataInputFrame;
 
-
 import java.awt.*;
-
 
 
 public class World {

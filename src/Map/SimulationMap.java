@@ -426,7 +426,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         List<Animal> animals = this.getAnimalsAsList();
         double result = 0;
         for(Animal animal : animals){
-            result += animal.getNumberOfchilds();
+            result += animal.getNumberOfChilds();
         }
         if(animals.size() > 0){
             result = result/animals.size();

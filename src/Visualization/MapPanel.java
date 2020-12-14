@@ -28,7 +28,6 @@ public class MapPanel extends JPanel implements MouseListener {
     public AnimalDetailsFrame details;
     public Frame frame;
 
-    // todo remove dimensions, replace with frame.get...
     public MapPanel(SimulationMap map, Dimension size, Frame frame) throws IOException{
         this.map = map;
         this.frame = frame;

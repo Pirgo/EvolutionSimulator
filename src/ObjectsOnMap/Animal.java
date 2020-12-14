@@ -123,7 +123,7 @@ public class Animal implements IMapElement {
         return this.gene;
     }
 
-    public int getNumberOfchilds(){
+    public int getNumberOfChilds(){
         return this.numberOfchilds;
     }
 

@@ -24,6 +24,7 @@ public class Vector2d {
         this.y = (int)(Math.random()*(mapUpperRigth.y - mapLowerLeft.y));
     }
 
+    //used when placing animals at start
     public Vector2d(SimulationStartData data){
 
         this.x = (int)(Math.random()*(data.width - 1));

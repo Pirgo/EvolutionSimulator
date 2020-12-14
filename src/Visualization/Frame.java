@@ -2,20 +2,16 @@ package Visualization;
 
 import Map.SimulationEngine;
 import Map.SimulationMap;
-import ObjectsOnMap.Animal;
-import ObjectsOnMap.Genes;
 import ObjectsOnMap.Vector2d;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.List;
-import java.util.Map;
 
-//todo savebutton
+
+
 public class Frame extends JFrame implements ActionListener {
 
     public SimulationMap map;
@@ -27,8 +23,6 @@ public class Frame extends JFrame implements ActionListener {
     public JButton saveButton;
     public Timer timer;
 
-    //todo move to MapPanel, add coordinates
-    //Todo maybe add back to setting button
     public Frame(SimulationEngine engine, Vector2d loacation){
         super("EvolutionSimulator");
         this.engine = engine;
@@ -36,7 +30,6 @@ public class Frame extends JFrame implements ActionListener {
         this.timer = new Timer(100, this::actionPerformed);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(510, 700);
-//        setBackground(Color.white);
         setVisible(true);
         try{
             this.mapPanel = new MapPanel(this.map, this.getSize(), this);
@@ -65,6 +58,7 @@ public class Frame extends JFrame implements ActionListener {
         JButton saveButton = new JButton("Save");
         saveButton.setBounds(40,590,150,40);
         saveButton.addActionListener(this::save);
+        this.saveButton = saveButton;
         mapPanel.add(saveButton);
 
         StatistickPanel stats = new StatistickPanel(this.map);
