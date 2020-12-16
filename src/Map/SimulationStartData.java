@@ -1,5 +1,6 @@
 package Map;
 
+import ObjectsOnMap.Genes;
 import ObjectsOnMap.Vector2d;
 
 
@@ -16,6 +17,7 @@ public class SimulationStartData {
     public int numberOfMaps;
     public int numberOfAnimal;
     public List<Vector2d> startingPositions = new ArrayList<>();
+    public List<Genes> genesForStartAnimals = new ArrayList<>();
 
     public SimulationStartData(int width,
             int height,
@@ -42,6 +44,13 @@ public class SimulationStartData {
                         i++;
                     }
         }
+        i = 0;
+        while (i<numberOfAnimal){
+            Genes gene = new Genes();
+            this.genesForStartAnimals.add(gene);
+            i++;
+        }
+
 
 
     }

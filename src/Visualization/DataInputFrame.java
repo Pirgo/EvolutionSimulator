@@ -201,7 +201,8 @@ public class DataInputFrame extends JFrame implements ActionListener {
                 this.simulationData.energyStart,
                 this.simulationData.energyGrass,
                 this.simulationData.energyMove,
-                this.simulationData.startingPositions
+                this.simulationData.startingPositions,
+                this.simulationData.genesForStartAnimals
 
         );
         SimulationEngine engine = new SimulationEngine(map);
@@ -221,7 +222,8 @@ public class DataInputFrame extends JFrame implements ActionListener {
                     this.simulationData.energyStart,
                     this.simulationData.energyGrass,
                     this.simulationData.energyMove,
-                    this.simulationData.startingPositions
+                    this.simulationData.startingPositions,
+                    this.simulationData.genesForStartAnimals
             );
             SimulationEngine engine2 = new SimulationEngine(map2);
 
