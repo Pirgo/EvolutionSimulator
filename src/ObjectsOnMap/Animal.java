@@ -11,7 +11,8 @@ import java.util.List;
 
 public class Animal implements IMapElement {
     private Vector2d position;
-    private Genes gene;
+    private final Genes gene;
+    private int dominantGene;
     private double energy;
     private MapDirection orientation;
     private List<IPositionChangeObserver> observers = new ArrayList<>();
@@ -20,10 +21,12 @@ public class Animal implements IMapElement {
     public int livedDays;
     public int dayOfDeath;
 
+
     public Animal(Vector2d position, double energy, IWorldMap map, IPositionChangeObserver observer, Genes gene){
         this.position = position;
         this.energy = energy;
         this.gene = gene;
+        this.dominantGene = this.gene.getDominantGene();
         this.orientation = MapDirection.NORTH.random();
         this.map = map;
         this.addObserver(observer);
@@ -41,6 +44,10 @@ public class Animal implements IMapElement {
         return this.orientation;
     }
 
+    public int getDominantGene(){
+        return this.dominantGene;
+    }
+
     //rotates animal
     public void rotate(){
         for(int i=0; i < this.gene.returnRandomGene(); i++){
@@ -50,25 +57,9 @@ public class Animal implements IMapElement {
 
     //moves animal if not dead
     public void move(){
-        int tmpx;
-        int tmpy;
-        this.livedDays += 1;
-        if(this.position.x + this.orientation.toUnitVector().x < map.getMapLowerLeft().x){
-            tmpx = (map.getWidth() - Math.abs((this.position.x + this.orientation.toUnitVector().x)%map.getWidth())) % map.getWidth();
-        }
-        else{
-            tmpx = Math.abs((this.position.x + this.orientation.toUnitVector().x)%map.getWidth());
-        }
-
-        if(this.position.y + this.orientation.toUnitVector().y < map.getMapLowerLeft().y){
-            tmpy = (map.getHeight() - Math.abs((this.position.y + this.orientation.toUnitVector().y)%map.getHeight())) % map.getHeight();
-        }
-        else{
-            tmpy = Math.abs((this.position.y + this.orientation.toUnitVector().y)%map.getHeight());
-        }
 
         Vector2d old = new Vector2d(this.position.x, this.position.y);
-        this.position = new Vector2d(tmpx, tmpy);
+        this.position = this.map.wrapPosition(new Vector2d(this.position.x + this.orientation.toUnitVector().x, this.position.y + this.orientation.toUnitVector().y));
         this.rotate();
         this.positionChanged(this, old, this.position);
     }

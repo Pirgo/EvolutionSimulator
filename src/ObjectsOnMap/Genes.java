@@ -106,4 +106,30 @@ public class Genes {
     public int returnRandomGene(){
         return this.gene[(int)(Math.random() * this.lengthOfGene)];
     }
+
+    public int getDominantGene(){
+        int [] geneCounter = new int[this.lengthOfGene];
+        Arrays.fill(geneCounter,0);
+        for (int gene : this.gene){
+            geneCounter[gene] += 1;
+        }
+        int max = geneCounter[0];
+        int index = 0;
+        boolean onlyOneMax = true;
+        for(int i = 1 ; i < geneCounter.length; i++){
+            if(geneCounter[i] > max){
+                max = geneCounter[i];
+                index = i;
+                onlyOneMax = true;
+            }else if(geneCounter[i] == max){
+                onlyOneMax = false;
+            }
+        }
+        //-1 means that there is no dominant gene, exp. 6th appears 8times and 7th appears 8times as well, (8 was max)
+        if(!onlyOneMax) return -1;
+
+        return index;
+
+
+    }
 }

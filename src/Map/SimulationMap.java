@@ -314,7 +314,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
 
 
     //need to change and same in Animal
-    public Vector2d toNoBoundedPosition(Vector2d position) {
+    public Vector2d wrapPosition(Vector2d position) {
         int newX;
         int newY;
 
@@ -339,9 +339,9 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         for(int x = position.x - 1; x<= position.x + 1; x++){
             for (int y = position.y - 1; y <= position.y + 1; y++){
                 if(x != position.x || y != position.y){
-                    result.add(toNoBoundedPosition(new Vector2d(x,y)));
-                    if(objectsAtPosition(toNoBoundedPosition(new Vector2d(x,y))).size() == 0){
-                        result2.add(toNoBoundedPosition(new Vector2d(x,y)));
+                    result.add(wrapPosition(new Vector2d(x,y)));
+                    if(objectsAtPosition(wrapPosition(new Vector2d(x,y))).size() == 0){
+                        result2.add(wrapPosition(new Vector2d(x,y)));
                     }
                 }
             }
@@ -411,12 +411,19 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         }
         int max = 0;
         int index = 0;
-        for(int i = 0; i<8; i++){
+        boolean onlyOneMax = true;
+        for(int i = 1; i<8; i++){
             if(geneCounter[i] > max){
                 max = geneCounter[i];
                 index = i;
+                onlyOneMax = true;
+            }else if (geneCounter[i] == max ){
+                onlyOneMax = false;
             }
         }
+
+        if(!onlyOneMax) return -2;
+
 
         return index;
 

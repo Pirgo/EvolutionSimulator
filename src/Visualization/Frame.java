@@ -14,14 +14,14 @@ import java.io.*;
 
 public class Frame extends JFrame implements ActionListener {
 
-    public SimulationMap map;
-    public SimulationEngine engine;
-    public MapPanel mapPanel;
-    public StatistickPanel statPanel;
-    public JButton startButton;
-    public JButton stopButton;
-    public JButton saveButton;
-    public Timer timer;
+    protected SimulationMap map;
+    protected SimulationEngine engine;
+    protected MapPanel mapPanel;
+    protected StatistickPanel statPanel;
+    protected JButton startButton;
+    protected JButton stopButton;
+    protected JButton saveButton;
+    private Timer timer;
 
     public Frame(SimulationEngine engine, Vector2d loacation){
         super("EvolutionSimulator");
@@ -93,6 +93,7 @@ public class Frame extends JFrame implements ActionListener {
         this.timer.stop();
         this.stopButton.setEnabled(false);
         this.startButton.setEnabled(true);
+        this.mapPanel.repaint();
     }
 
     public void startTimer(ActionEvent e){

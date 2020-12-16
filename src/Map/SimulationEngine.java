@@ -19,7 +19,7 @@ public class SimulationEngine {
 
             //Used for testing before GUI
 
-//            Map<Vector2d, List<Animal>> tmp = map.tmp();
+//            Map<Vector2d, List<Animal>> tmp = map.getAnimalMap();
 //            for (Map.Entry<Vector2d, List<Animal>> entry : tmp.entrySet()) {
 //                System.out.println(entry);
 //            }

@@ -17,16 +17,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class MapPanel extends JPanel implements MouseListener {
-    public int panelWidth;
-    public int panelHeigth;
-    public SimulationMap map;
-    public int widthRatio;
-    public int heigthRatio;
-    public Dimension frameDim;
+    private int panelWidth;
+    private int panelHeigth;
+    private SimulationMap map;
+    private int widthRatio;
+    private int heigthRatio;
+    private Dimension frameDim;
     private final BufferedImage grassImg;
     private final BufferedImage animalImg;
-    public AnimalDetailsFrame details;
-    public Frame frame;
+    private final BufferedImage animalDominantImg;
+    protected AnimalDetailsFrame details;
+    private Frame frame;
 
     public MapPanel(SimulationMap map, Dimension size, Frame frame) throws IOException{
         this.map = map;
@@ -51,6 +52,9 @@ public class MapPanel extends JPanel implements MouseListener {
         this.animalImg = ImageIO.read(new File("src/Visualization/images/animal1.png"));
         if(this.animalImg == null) throw new IOException();
 
+        this.animalDominantImg = ImageIO.read(new File("src/Visualization/images/animal2.png"));
+        if(this.animalDominantImg == null) throw new IOException();
+
 
 
 
@@ -71,18 +75,21 @@ public class MapPanel extends JPanel implements MouseListener {
 
         //draw grass
         for(Grass grass : this.map.getGrassesAsList()){
-            int xPos = map.toNoBoundedPosition(grass.getPosition()).x;
-            int yPos = map.toNoBoundedPosition(grass.getPosition()).y;
+            int xPos = map.wrapPosition(grass.getPosition()).x;
+            int yPos = map.wrapPosition(grass.getPosition()).y;
             g2d.drawImage(this.grassImg, xPos*widthRatio, yPos*heigthRatio, widthRatio,heigthRatio, null);
         }
 
         //draw animals
         for(Animal animal : this.map.getAnimalsAsList()){
             g2d.setColor(animal.animalColor());
-            int xPos = map.toNoBoundedPosition(animal.getPosition()).x;
-            int yPos = map.toNoBoundedPosition(animal.getPosition()).y;
+            int xPos = map.wrapPosition(animal.getPosition()).x;
+            int yPos = map.wrapPosition(animal.getPosition()).y;
             g2d.fillOval(xPos * widthRatio,yPos * heigthRatio,widthRatio,heigthRatio);
             g2d.drawImage(this.animalImg, xPos*widthRatio, yPos*heigthRatio, widthRatio,heigthRatio, null);
+            if(this.map.getDominantGenotype() == animal.getDominantGene() && !this.frame.stopButton.isEnabled()){
+                g2d.drawImage(this.animalDominantImg, xPos*widthRatio, yPos*heigthRatio, widthRatio,heigthRatio, null);
+            }
 
 
         }

@@ -17,5 +17,6 @@ public interface IWorldMap {
 
     int getStartEnergy();
 
+    Vector2d wrapPosition(Vector2d position);
 
 }

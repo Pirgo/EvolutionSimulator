@@ -14,7 +14,7 @@ import java.util.List;
 // todo check if this causes problems
 public class AnimalDetailsFrame extends JFrame {
 
-    Animal animal;
+    private Animal animal;
     private JList animalDetails = new JList();
 
     public AnimalDetailsFrame(Vector2d animalPosition, SimulationMap map, Frame frame){
@@ -34,6 +34,7 @@ public class AnimalDetailsFrame extends JFrame {
         DefaultListModel<String> statsList = new DefaultListModel<>();
         statsList.addElement("Position: " + this.animal.getPosition());
         statsList.addElement("Gene: " + Arrays.toString(this.animal.getGene().getGene()));
+        statsList.addElement("Dominant gene: " + (this.animal.getDominantGene()>0 ? this.animal.getDominantGene() : "None"));
         statsList.addElement("Number of its childs: " + this.animal.getNumberOfChilds());
         statsList.addElement("Energy: " +this.animal.getEnergy());
         if(this.animal.dayOfDeath!= 0){
