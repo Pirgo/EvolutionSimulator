@@ -67,7 +67,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
         JLabel widthLabel = new JLabel("Width");
         widthLabel.setBounds(10,20,80,25);
         inputPanel.add(widthLabel);
-        SpinnerModel width = new SpinnerNumberModel(fromJson.width,10,71,1);
+        SpinnerModel width = new SpinnerNumberModel(fromJson.width,10,51,1);
         JSpinner widthSpinner = new JSpinner(width);
         widthSpinner.setBounds(100,20,165,25);
         inputPanel.add(widthSpinner);
@@ -76,7 +76,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
         JLabel heightLabel = new JLabel("Height");
         heightLabel.setBounds(10,50,80,25);
         inputPanel.add(heightLabel);
-        SpinnerModel height = new SpinnerNumberModel(fromJson.height,10,71,1);
+        SpinnerModel height = new SpinnerNumberModel(fromJson.height,10,51,1);
         JSpinner heightSpinner = new JSpinner(height);
         heightSpinner.setBounds(100,50,165,25);
         inputPanel.add(heightSpinner);

@@ -41,7 +41,7 @@ public class StatistickPanel extends JPanel {
                 "Numbar of living animals: " + this.map.getNumberOfAnimals() + "\n"+
                 "Number of grasses on the map: " + this.map.getNumberOfGrasses() + "\n" +
                 "Average energy: " + (double)Math.round(this.map.getAverageEnergy() * 10000)/10000 + "\n" +
-                "Most popular gene: " + this.map.getDominantGenotype() + "\n" +
+                "Most popular gene: " + (this.map.getDominantGenotype()>0 ?this.map.getDominantGenotype() : "None" ) + "\n" +
                 "Average number of childs: " + (double)Math.round(this.map.getAverageChildCount() * 10000)/10000 + "\n" +
                 "Average days lived by animal: " + (double)Math.round(this.map.getAverageDaysLivedByAnimal() * 10000)/10000);
     }
