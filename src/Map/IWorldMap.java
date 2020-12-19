@@ -19,4 +19,6 @@ public interface IWorldMap {
 
     Vector2d wrapPosition(Vector2d position);
 
+    int getDays();
+
 }

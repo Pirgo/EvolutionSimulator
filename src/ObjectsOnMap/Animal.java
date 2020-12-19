@@ -7,6 +7,8 @@ import Map.MapDirection;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.javatuples.*;
+
 
 
 public class Animal implements IMapElement {
@@ -19,7 +21,10 @@ public class Animal implements IMapElement {
     private IWorldMap map;
     private int numberOfchilds;
     public int livedDays;
+    public int dayOfBirth;
     public int dayOfDeath;
+    public List<Pair<Integer, Integer>> childsInEra = new ArrayList<>();
+
 
 
     public Animal(Vector2d position, double energy, IWorldMap map, IPositionChangeObserver observer, Genes gene){
@@ -32,7 +37,10 @@ public class Animal implements IMapElement {
         this.addObserver(observer);
         this.numberOfchilds = 0;
         this.livedDays = 0;
+        this.dayOfBirth = map.getDays();
         this.dayOfDeath = 0;
+
+        System.out.println(this.dayOfBirth);
     }
 
     @Override
@@ -77,6 +85,10 @@ public class Animal implements IMapElement {
     public void copulate(){
         this.energy -= this.energy * 0.25;
         this.numberOfchilds += 1;
+        this.childsInEra.add(new Pair<>(this.map.getDays(), this.numberOfchilds));
+        System.out.println(this.childsInEra.toString());
+
+
     }
 
     public void addObserver(IPositionChangeObserver observer){
@@ -116,6 +128,15 @@ public class Animal implements IMapElement {
 
     public int getNumberOfChilds(){
         return this.numberOfchilds;
+    }
+
+    public Integer getNumberOfChildsInEra(int era){
+        Integer res = 0;
+        for(Pair<Integer, Integer> eraChild : this.childsInEra){
+            if(eraChild.getValue0() <= era) res = eraChild.getValue1();
+            else break;
+        }
+        return res;
     }
 
     //todo need to change
