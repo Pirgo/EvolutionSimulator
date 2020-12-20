@@ -40,7 +40,6 @@ public class Animal implements IMapElement {
         this.dayOfBirth = map.getDays();
         this.dayOfDeath = 0;
 
-        System.out.println(this.dayOfBirth);
     }
 
     @Override
@@ -86,8 +85,6 @@ public class Animal implements IMapElement {
         this.energy -= this.energy * 0.25;
         this.numberOfchilds += 1;
         this.childsInEra.add(new Pair<>(this.map.getDays(), this.numberOfchilds));
-        System.out.println(this.childsInEra.toString());
-
 
     }
 

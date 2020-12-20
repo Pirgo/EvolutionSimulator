@@ -33,12 +33,10 @@ public class MapPanel extends JPanel implements MouseListener {
         this.map = map;
         this.frame = frame;
         this.frameDim = size;
-        System.out.println(frameDim.width);
         this.widthRatio = (int)Math.round(500 / (double)map.getWidth());
         this.heigthRatio = (int)Math.round(500/  (double)map.getHeight());
         this.panelWidth = this.widthRatio * map.getWidth();
         this.panelHeigth = this.heigthRatio * map.getHeight();
-        System.out.println(this.panelWidth + "SSA");
         setSize(new Dimension(this.panelWidth, this.panelHeigth));
         setPreferredSize(new Dimension(this.panelWidth, this.panelHeigth));
         setLayout(null);
@@ -98,7 +96,6 @@ public class MapPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("DZIALA" + (int)Math.floor(e.getX()/(double)this.widthRatio) +"_"+ (int)Math.floor(e.getY()/(double)this.heigthRatio));
         Vector2d animalPosition = new Vector2d((int)Math.floor(e.getX()/(double)this.widthRatio), (int)Math.floor(e.getY()/(double)this.heigthRatio));
         if(!this.map.isOccupiedByAnimal(animalPosition)) return;
         if(this.details !=null) this.details.dispatchEvent(new WindowEvent(this.details, WindowEvent.WINDOW_CLOSING));

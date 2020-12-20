@@ -27,6 +27,7 @@ public class Frame extends JFrame implements ActionListener {
         super("EvolutionSimulator");
         this.engine = engine;
         this.map = engine.map;
+        //change speed of simulation
         this.timer = new Timer(100, this::actionPerformed);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(510, 700);
@@ -34,7 +35,7 @@ public class Frame extends JFrame implements ActionListener {
         try{
             this.mapPanel = new MapPanel(this.map, this.getSize(), this);
         }catch (IOException e){
-            System.out.println("Nie udało wczytać się zdjęc");
+            e.printStackTrace();
         }
 
 
@@ -103,7 +104,6 @@ public class Frame extends JFrame implements ActionListener {
     }
 
     public void save(ActionEvent e){
-        System.out.println(this.statPanel.toString());
         String text = this.statPanel.toString();
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setAcceptAllFileFilterUsed(false);

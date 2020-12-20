@@ -80,7 +80,6 @@ public class Genes {
 
         for (int i = 0; i<numberOfUniqueGenes; i++){
             if(numberOfGeneInDNA[i] == 0){
-                System.out.println(i);
                 boolean flag = true;
                 int random = 0;
                 //take random gene which will be replaced

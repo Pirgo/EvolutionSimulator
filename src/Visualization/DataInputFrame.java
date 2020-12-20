@@ -37,7 +37,7 @@ public class DataInputFrame extends JFrame implements ActionListener {
     //TODO change dimensions
     public DataInputFrame() throws Exception{
         super("EvolutionSimulatorDataInput");
-        setSize(280,400);
+        setSize(280,320);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
