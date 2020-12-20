@@ -14,11 +14,11 @@ import org.javatuples.*;
 public class Animal implements IMapElement {
     private Vector2d position;
     private final Genes gene;
-    private int dominantGene;
+    private final int dominantGene;
     private double energy;
     private MapDirection orientation;
     private List<IPositionChangeObserver> observers = new ArrayList<>();
-    private IWorldMap map;
+    private final IWorldMap map;
     private int numberOfchilds;
     public int livedDays;
     public int dayOfBirth;
@@ -109,8 +109,7 @@ public class Animal implements IMapElement {
     @Override
     public boolean equals(Object other){
 
-        if(this == other) return true;
-        return false;
+        return this == other;
     }
 
     @Override
@@ -139,7 +138,7 @@ public class Animal implements IMapElement {
         return res;
     }
 
-    //todo need to change
+
     public Color animalColor(){
         double startEnergy = map.getStartEnergy();
         if(this.energy < 0.1 * startEnergy ) return new Color(255, 0, 0);

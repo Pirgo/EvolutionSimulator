@@ -350,7 +350,7 @@ public class SimulationMap implements IWorldMap, IPositionChangeObserver{
         if(result2.size() != 0) return result2;
         return result;
     }
-    //would be nice to rewrite it
+
     public void copulateAll(){
         List<Animal> result = new ArrayList<>();
         for (Map.Entry<Vector2d, List<Animal>> entry : animalMap.entrySet()) {
