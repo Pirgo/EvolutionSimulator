@@ -6,11 +6,11 @@ import java.util.Arrays;
 
 public class Genes {
     private int[] gene;
-    private final int lengthOfGene = 32;
-    private final int numberOfUniqueGenes = 8;
+    private static final int lengthOfGene = 32;
+    private static final int numberOfUniqueGenes = 8;
 
     public Genes(){
-        this.gene = new int[this.lengthOfGene];
+        this.gene = new int[lengthOfGene];
 
         generateRandomGene();
     }
@@ -18,10 +18,10 @@ public class Genes {
     public Genes(Genes gene1, Genes gene2){
         this();
 
-        int whereToCut1 = (int)(Math.random()*(this.lengthOfGene - 1));
-        int whereToCut2 = (int)(Math.random()*(this.lengthOfGene - 1));
+        int whereToCut1 = (int)(Math.random()*(lengthOfGene - 1));
+        int whereToCut2 = (int)(Math.random()*(lengthOfGene - 1));
         while (whereToCut1 == whereToCut2){
-            whereToCut2 = (int)(Math.random()*(this.lengthOfGene - 1));
+            whereToCut2 = (int)(Math.random()*(lengthOfGene - 1));
         }
 
         if(whereToCut1 > whereToCut2){
@@ -38,7 +38,7 @@ public class Genes {
         for (int i = whereToCut1; i < whereToCut2; i++){
             this.gene[i] = gene2arr[i];
         }
-        for (int i = whereToCut2; i < this.lengthOfGene; i++){
+        for (int i = whereToCut2; i < lengthOfGene; i++){
             this.gene[i] = gene1arr[i];
         }
 
@@ -48,11 +48,11 @@ public class Genes {
     }
 
     public int getLengthOfGene(){
-        return this.lengthOfGene;
+        return lengthOfGene;
     }
 
     public int getNumberOfUniqueGenes(){
-        return this.numberOfUniqueGenes;
+        return numberOfUniqueGenes;
     }
 
     public int[] getGene(){
@@ -61,8 +61,8 @@ public class Genes {
 
 
     private void generateRandomGene(){
-        for(int i = 0; i < this.lengthOfGene; i++){
-            this.gene[i] = (int)(Math.random()*this.numberOfUniqueGenes);
+        for(int i = 0; i < lengthOfGene; i++){
+            this.gene[i] = (int)(Math.random()*numberOfUniqueGenes);
         }
 
         Arrays.sort(this.gene);
@@ -72,27 +72,27 @@ public class Genes {
 
 
     private void repairGene(){
-        int[] numberOfGeneInDNA = new int[this.numberOfUniqueGenes];
+        int[] numberOfGeneInDNA = new int[numberOfUniqueGenes];
         Arrays.fill(numberOfGeneInDNA ,0);
         for(int gene : this.gene) {
             numberOfGeneInDNA[gene] += 1;
         }
 
-        for (int i = 0; i<this.numberOfUniqueGenes; i++){
+        for (int i = 0; i<numberOfUniqueGenes; i++){
             if(numberOfGeneInDNA[i] == 0){
                 System.out.println(i);
                 boolean flag = true;
                 int random = 0;
                 //take random gene which will be replaced
                 while (flag){
-                    random = (int) (Math.random()*this.numberOfUniqueGenes);
+                    random = (int) (Math.random()*numberOfUniqueGenes);
                     if(numberOfGeneInDNA[random] > 1){
                         numberOfGeneInDNA[random] -= 1;
                         flag = false;
                     }
                 }
 
-                for (int j = 0; j < this.lengthOfGene; j++){
+                for (int j = 0; j < lengthOfGene; j++){
                     if(this.gene[j] == random){
                         this.gene[j] = i;
                         break;
@@ -104,11 +104,11 @@ public class Genes {
     }
 
     public int returnRandomGene(){
-        return this.gene[(int)(Math.random() * this.lengthOfGene)];
+        return this.gene[(int)(Math.random() * lengthOfGene)];
     }
 
     public int getDominantGene(){
-        int [] geneCounter = new int[this.lengthOfGene];
+        int [] geneCounter = new int[lengthOfGene];
         Arrays.fill(geneCounter,0);
         for (int gene : this.gene){
             geneCounter[gene] += 1;
